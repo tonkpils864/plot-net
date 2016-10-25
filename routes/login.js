@@ -4,19 +4,13 @@ var passport= require('passport');
 var LocalStrategy= require('passport-local').Strategy;
 var User= require('../models/user');
 
-
-//Get Register
-router.get('/register', function(req,res) {
-    res.render('register');
-});
-
 //Get login
 router.get('/login', function(req,res) {
-    res.render('login');
+    res.render('login', {layout: false});
 });
 
 //Register User
-router.post('/register', function(req,res) {
+router.post('/login', function(req,res) {
      var name= req.body.name;
      var email= req.body.email;
      var username= req.body.username;
@@ -44,16 +38,15 @@ router.post('/register', function(req,res) {
 
          User.createUser(newUser, function(err, user) {
              if(err) throw err;
-             console.log(user);
          });
 
          req.flash('success_msg', 'You are now registered and can now login');
-         res.redirect('/users/login');
+         res.redirect('/login');
      })
      .catch(function(errors) {
-         res.render('register', {
+         res.render('login', {
              errors:errors
-         });
+         ,layout: false});
      });
 });
 
@@ -85,16 +78,7 @@ passport.deserializeUser(function(id, done) {
     });
 });
 
-router.post('/login', passport.authenticate('local',{successRedirect:'/',failureRedirect:'/users/login',failureFlash:true}),
-  function(req, res) {
-      res.redirect('/');
-  });
-
-router.get('/logout', function(req,res) {
-    req.logout();
-    req.flash('success_msg', 'You are logged out.');
-    res.redirect('/users/login');
-})
+router.post('/home', passport.authenticate('local',{successRedirect:'/home',failureRedirect:'/login',failureFlash:true}));
 
 
 module.exports= router;

@@ -14,8 +14,8 @@ mongoose.Promise = require('bluebird');
 mongoose.connect('mongodb://localhost/loginapp');
 var db=mongoose.connection;
 
-var routes= require('./routes/index');
-var users= require('./routes/users');
+var home= require('./routes/home');
+var login= require('./routes/login');
 var User= require('./models/user');
 
 //init app
@@ -23,7 +23,7 @@ var app= express();
 
 //View Engine
 app.set('views', path.join(__dirname,'views'));
-app.engine('handlebars', exphbs({defaultLayout:'layout'}));
+app.engine('handlebars', exphbs({defaultLayout:'login'}));
 app.set('view engine', 'handlebars');
 
 //bodyparser middleware
@@ -113,8 +113,8 @@ app.use(function (req,res, next) {
     next();
 });
 
-app.use('/', routes);
-app.use('/users', users);
+app.use('/',login);
+app.use('/',home);
 
 //Set Port
 app.set('port',(process.env.PORT || 3000));
