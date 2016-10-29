@@ -14,8 +14,7 @@ mongoose.Promise = require('bluebird');
 mongoose.connect('mongodb://localhost/loginapp');
 var db=mongoose.connection;
 
-var home= require('./routes/home');
-var login= require('./routes/login');
+var routes= require('./routes');
 var User= require('./models/user');
 
 //init app
@@ -113,8 +112,8 @@ app.use(function (req,res, next) {
     next();
 });
 
-app.use('/',login);
-app.use('/',home);
+app.use('/',routes);
+
 
 //Set Port
 app.set('port',(process.env.PORT || 3000));
