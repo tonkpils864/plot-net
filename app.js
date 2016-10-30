@@ -10,12 +10,11 @@ var passport= require('passport');
 var LocalStrategy= require('passport-local').Strategy;
 var mongo= require('mongodb');
 var mongoose= require('mongoose');
-mongoose.Promise = require('bluebird');
 mongoose.connect('mongodb://localhost/loginapp');
 var db=mongoose.connection;
 
 var routes= require('./routes');
-var User= require('./models/user');
+var auth= require('./controllers/authentication_controller');
 
 //init app
 var app= express();
@@ -45,60 +44,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //Express Validator
-app.use(expressValidator({
-    errorFormatter: function(param, msg, value) {
-        var namespace = param.split('.')
-        , root    = namespace.shift()
-        , formParam = root;
-
-        while(namespace.length) {
-            formParam += '[' + namespace.shift() + ']';
-        }
-        return {
-            param : formParam,
-            msg   : msg,
-            value : value
-        };
-    },
-    customValidators: {
-        isUsernameAvailable: function(username) {
-            return new Promise(function(resolve, reject) {
-                User.findOne({ username: username })
-                .then(function(user) {
-                    if (!user) {
-                        resolve(user);
-                    }
-                    else {
-                        reject(user);
-                    }
-                })
-                .catch(function(error){
-                    if (error) {
-                        reject(error);
-                    }
-                });
-            });
-        },
-        isEmailAvailable: function(email) {
-            return new Promise(function(resolve, reject) {
-                User.findOne({ email: email })
-                .then(function(mail) {
-                    if (!mail) {
-                        resolve(mail);
-                    }
-                    else {
-                        reject(mail);
-                    }
-                })
-                .catch(function(error){
-                    if (error) {
-                        reject(error);
-                    }
-                });
-            });
-        }
-    }
-}));
+app.use(expressValidator({ errorFormatter:auth.errorFormatter,customValidators: {
+    isAvailable:auth.isAvailable,isAvailable:auth.isAvailable}}));
 
 //Connect flash
 app.use(flash());
@@ -113,7 +60,6 @@ app.use(function (req,res, next) {
 });
 
 app.use('/',routes);
-
 
 //Set Port
 app.set('port',(process.env.PORT || 3000));
