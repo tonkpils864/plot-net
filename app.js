@@ -44,8 +44,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //Express Validator
-app.use(expressValidator({ errorFormatter:auth.errorFormatter,customValidators: {
-    isAvailable:auth.isAvailable,isAvailable:auth.isAvailable}}));
+app.use(expressValidator({ errorFormatter:auth.errorFormatter,customValidators: {isAvailable:auth.isAvailable}}));
 
 //Connect flash
 app.use(flash());

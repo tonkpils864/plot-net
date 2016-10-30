@@ -51,18 +51,18 @@ function registerUser(req,res) {
     //Validation
     req.checkBody('name', 'Name is required.').notEmpty();
     req.checkBody('username', 'Username is required.').notEmpty();
-    if(username.trim()) {
+    if(username) {
         req.checkBody('username', 'Username Taken').isAvailable();
     }
     req.checkBody('email', 'Email is required.').notEmpty();
-    if(email.trim()) {
+    if(email) {
         req.checkBody('email', 'Email is not valid.').isEmail();
         req.checkBody('email', 'Email taken.').isAvailable(); //CUSTOM VALIDATION FUNCTION
     }
     req.checkBody('password', 'Password is required.').notEmpty();
-    if(password.trim()) {
+    if(password) {
         req.checkBody('password2','Password validation is required.').notEmpty();
-        if(password2.trim()) {
+        if(password2) {
             req.checkBody('password2', 'Passwords do not match.').equals(req.body.password);
         }
     }
