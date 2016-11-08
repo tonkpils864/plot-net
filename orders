@@ -2,10 +2,9 @@ git add .
 git commit -m "message"
 git push origin master
 
-1)add upload file/show in user wall
-2)angular videos
-3)change handlebars with angular
+
+1)add post something in wall/
 4)node.js videos
 5)deeply understand project until here
 6)show work
-7) hdf?
+7) hdf? cluster? session?

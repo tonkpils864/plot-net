@@ -1,7 +1,7 @@
 var express= require('express');
 var router= express.Router();
 var auth= require('./controllers/authentication_controller');
-var upl= require('./controllers/upload_controller');
+var postc= require('./controllers/post_controller');
 
 //Get login
 router.get('/login', function(req,res) {
@@ -26,11 +26,20 @@ router.get('/logout',auth.ensureAuthenticated, function(req,res) {
     req.logout();
     req.flash('success_msg', 'You are logged out.');
     res.redirect('/login');
-})
+});
 
-//Upload file
-router.post('/upload_file', auth.ensureAuthenticated, function(req, res) {
-    upl.upload(req.headers,req,res);
-})
+//Write something and post it to your wall
+router.post('/text',function(req,res) {
+    postc.addPost(req.body,req.user);
+     res.status(200).send();
+});
+
+//Load your posts
+router.get('/load', function(req,res) {
+    var loads=postc.loadPost(req.user,function(docs){
+        res.status(200).send(docs);
+    });
+
+});
 
 module.exports= router;

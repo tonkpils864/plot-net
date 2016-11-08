@@ -125,10 +125,14 @@ function isAvailable(name) { //custom function called above
 }
 
 function checkNameOrEmail(name) {
-    if(name.isEmail())
-        return {name: username}
-    else
-        return {name:email}
+    if(name.indexOf("@")>-1){
+        var query= {email:name};
+        return query;
+    }
+    else {
+        var query= {username:name};
+        return query;
+    }
 }
 
 module.exports= {

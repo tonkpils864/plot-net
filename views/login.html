@@ -4,6 +4,7 @@
         <title>Our Website</title>
         <link rel="stylesheet" href="/css/bootstrap.css"/>
         <link rel="stylesheet" href="/css/style.css"/>
+
     </head>
     <body>
         <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -28,32 +29,32 @@
 
         <div class="jumbotron">
             <div class="container">
-                {{#if success_msg}}
+                <% if (success_msg.length>0) {%>
                     <div class="alert alert-success">
-                        {{success_msg}}
+                        <%= success_msg %>
                     </div>
-                {{/if}}
+                <% } %>
 
-                {{#if  error_msg}}
+                <% if (error_msg.length>0) {%>
                     <div class="alert alert-danger">
-                        {{error_msg}}
+                        <%= error_msg %>
                     </div>
-                {{/if}}
+                <% } %>
 
-                {{#if  error}}
+                <% if (error.length>0) {%>
                     <div class="alert alert-danger">
-                        {{error}}
+                        <%= error %>
                     </div>
-                {{/if}}
+                <% } %>
 
               <h2 class="page-header">Register to our Website!</h2>
-              {{#if errors}}
-                  {{#each errors}}
+              <% if (errors.length>0) {%>
+                  <%for(e in errors) {%>
                       <div class="alert alert-danger">
-                          {{msg}}
+                          <%= errors[e].msg %>
                       </div>
-                  {{/each}}
-              {{/if}}
+                  <% } %>
+              <% } %>
               <form method="post" action="/login"  style="width:25%">
                   <div class="form-group">
                       <label>Name</label>
