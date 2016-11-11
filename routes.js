@@ -5,6 +5,9 @@ var postc= require('./controllers/post_controller');
 
 //Get login
 router.get('/login', function(req,res) {
+    if(req.isAuthenticated())
+        res.redirect('/home');
+    else
     res.render('login', {layout: false});
 });
 

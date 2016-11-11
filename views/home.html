@@ -42,20 +42,22 @@
     </nav>
 
     <div class="container" ng-controller="homeController">
-
-              <div class="starter-template">
-                <h1>Upload your file</h1>
-              </div>
-              <input type='text' ng-model="userPost" /><button class="btn btn-default" ng-click="addPost()" >Post!</button>
+        <div class="starter-template">
+            <h1>Upload your file</h1>
+        </div>
+        <input type='text' ng-model="userPost" placeholder="Post something!" /><button class="btn btn-success" ng-click="addPost()" >Post!</button>
+            <hr />
+        <h1>User posts:</h1>
+            <post-result  ng-repeat="eachPost in posts | startFrom:currentPage*pageSize | limitTo:pageSize"></post-result>
+            <div ng-show="numberOfPages()>1">
+                <button class="btn btn-default" ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1">Previous</button>
+                    {{currentPage+1}}/{{numberOfPages()}}
+                <button  class="btn btn-default" ng-disabled="currentPage >= posts.length/pageSize - 1" ng-click="currentPage=currentPage+1">Next</button>
+            </div>
              <hr />
-                <h1>User posts:</h1>
-                <div>
-                    <button class="btn btn-default" ng-click="loadPosts()" >Load!</button>
-                 <hr />
-                </div>
-              <div>
-                  <a href="/logout"> <button class="btn btn-success">Logout</button> </a>
-              </div>
+        <div>
+            <a href="/logout"> <button class="btn btn-success">Logout</button> </a>
+        </div>
 
     </div><!-- /.container -->
   </body>
