@@ -1,13 +1,14 @@
 var mongoose= require('mongoose');
 
+//var ObjectId=Schema.ObjectId;
 //User Schema
 var PostSchema= mongoose.Schema({
     username: {
         type: String,
         index:true
     },
-    text: {
-        type:String
+    jsondata: {
+        type:[{x:Number,y:Number}]
     }
 });
 

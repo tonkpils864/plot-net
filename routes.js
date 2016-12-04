@@ -1,7 +1,7 @@
 var express= require('express');
 var router= express.Router();
 var auth= require('./controllers/authentication_controller');
-var postc= require('./controllers/post_controller');
+var upl= require('./controllers/upload_load_controller');
 
 //Get login
 router.get('/login', function(req,res) {
@@ -31,18 +31,19 @@ router.get('/logout',auth.ensureAuthenticated, function(req,res) {
     res.redirect('/login');
 });
 
-//Write something and post it to your wall
-router.post('/text',function(req,res) {
-    postc.addPost(req.body,req.user);
-     res.status(200).send();
-});
-
 //Load your posts
 router.get('/load', function(req,res) {
-    var loads=postc.loadPost(req.user,function(docs){
+    upl.loadPost(req.user,function(docs){
         res.status(200).send(docs);
     });
+});
 
+//upload an hdf5 file
+router.post('/upload',function(req,res) {
+    upl.upload(req, function(){
+        res.writeHead(200, { Connection: 'close', Location: '/' });
+        res.end();
+    });
 });
 
 module.exports= router;
